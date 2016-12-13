@@ -34,7 +34,7 @@ class TCPTransport
   class BasicSocket < Cool.io::TCPSocket
     def initialize(io)
       super(io)
-      @pac = MessagePack::Unpacker.new
+      @pac = MessagePack::DefaultFactory.unpacker
     end
 
     # from Cool.io::TCPSocket
