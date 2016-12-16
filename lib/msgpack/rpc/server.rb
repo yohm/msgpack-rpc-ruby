@@ -106,8 +106,11 @@ class Server < SessionPool
       #FIXME on ArgumentError
       # res.error(ArgumentError); return
 
-    rescue
-      responder.error($!.to_s)
+    rescue => ex
+      unless ex.respond_to?(:to_msgpack)
+        ex.define_singleton_method(:to_msgpack) {|*args| self.to_s.to_msgpack }
+      end
+      responder.error(ex)
       return
     end
 
